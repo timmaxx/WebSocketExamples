@@ -11,8 +11,8 @@ public class SwingWebSocketClient extends WebSocketClient {
     private final JTextArea jTextArea;
     private final JButton connectJButton;
     private final JTextField uriField;
-    private final JButton close;
-    private final JComboBox draft;
+    private final JButton closeJButton;
+    private final JComboBox draftJComboBox;
 
 
     public SwingWebSocketClient(
@@ -27,8 +27,8 @@ public class SwingWebSocketClient extends WebSocketClient {
         this.jTextArea = jTextArea;
         this.connectJButton = connectJButton;
         this.uriField = uriJTextField;
-        this.draft = draftJComboBox;
-        this.close = closeJButton;
+        this.draftJComboBox = draftJComboBox;
+        this.closeJButton = closeJButton;
     }
 
     @Override
@@ -46,13 +46,14 @@ public class SwingWebSocketClient extends WebSocketClient {
     @Override
     public void onClose( int code, String reason, boolean remote) {
         jTextArea.append(
-                "You have been disconnected from: " + getURI( ) + "; Code: " + code + " " + reason
-                        + "\n");
+                "You have been disconnected from: " + getURI( )
+                        + "; Code: " + code
+                        + " " + reason + "\n");
         jTextArea.setCaretPosition( jTextArea.getDocument( ).getLength( ));
         connectJButton.setEnabled( true);
         uriField.setEditable( true);
-        draft.setEditable( true);
-        close.setEnabled( false);
+        draftJComboBox.setEditable( true);
+        closeJButton.setEnabled( false);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class SwingWebSocketClient extends WebSocketClient {
         exception.printStackTrace( );
         connectJButton.setEnabled( true);
         uriField.setEditable( true);
-        draft.setEditable( true);
-        close.setEnabled( false);
+        draftJComboBox.setEditable( true);
+        closeJButton.setEnabled( false);
     }
 }

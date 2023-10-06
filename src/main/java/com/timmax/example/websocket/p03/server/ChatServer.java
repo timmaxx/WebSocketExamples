@@ -22,7 +22,10 @@ public class ChatServer extends WebSocketServer {
         broadcast("new connection: "
                 + clientHandshake.getResourceDescriptor()); //This method sends a message to all clients connected
         System.out.println(
-                webSocket.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!");
+                webSocket.getRemoteSocketAddress()
+                        .getAddress()
+                        .getHostAddress()
+                        + " entered the room!");
     }
 
     @Override
