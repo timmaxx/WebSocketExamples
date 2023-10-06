@@ -1,8 +1,11 @@
 package com.timmax.example.websocket.p03.client.swing;
 
+import com.timmax.example.websocket.p03.client.LikeWebSocketClient;
+import com.timmax.example.websocket.p03.client.UnifyWebSocketClient;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +16,7 @@ import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class SwingChatClient extends JFrame implements ActionListener {
+public class SwingChatClient extends JFrame implements ActionListener, LikeWebSocketClient {
     private final JTextField uriJTextField;
     private final JButton connectJButton;
     private final JButton closeJButton;
@@ -87,15 +90,12 @@ public class SwingChatClient extends JFrame implements ActionListener {
 
         } else if ( actionEvent.getSource( ) == connectJButton) {
             try {
-                webSocketClient = new SwingWebSocketClient(
-                        new URI( uriJTextField.getText( ))
-                        , ( Draft) draftJComboBox.getSelectedItem( )
-                        , jTextArea
-                        , connectJButton
-                        , uriJTextField
-                        , draftJComboBox
-                        , closeJButton
-                );
+                webSocketClient =
+                        new UnifyWebSocketClient(
+                                new URI( uriJTextField.getText( ))
+                                , ( Draft) draftJComboBox.getSelectedItem( )
+                                , this
+                        );
 
                 closeJButton.setEnabled( true);
                 connectJButton.setEnabled( false);
@@ -108,5 +108,38 @@ public class SwingChatClient extends JFrame implements ActionListener {
         } else if ( actionEvent.getSource() == closeJButton) {
             webSocketClient.close( );
         }
+    }
+
+    @Override
+    public void inMessage( String message) {
+        jTextArea.append( message);
+        jTextArea.setCaretPosition( jTextArea.getDocument( ).getLength( ));
+    }
+
+    @Override
+    public void inOpen(ServerHandshake serverHandshake, String message) {
+        jTextArea.append( message);
+        jTextArea.setCaretPosition( jTextArea.getDocument( ).getLength( ));
+    }
+
+    @Override
+    public void inClose( int code, String reason, boolean remote, String message) {
+        jTextArea.append( message);
+        jTextArea.setCaretPosition( jTextArea.getDocument( ).getLength( ));
+        connectJButton.setEnabled( true);
+        uriJTextField.setEditable( true);
+        draftJComboBox.setEditable( true);
+        closeJButton.setEnabled( false);
+    }
+
+    @Override
+    public void inError( Exception exception, String message) {
+        jTextArea.append( message);
+        jTextArea.setCaretPosition( jTextArea.getDocument( ).getLength( ));
+        exception.printStackTrace( );
+        connectJButton.setEnabled( true);
+        uriJTextField.setEditable( true);
+        draftJComboBox.setEditable( true);
+        closeJButton.setEnabled( false);
     }
 }
