@@ -5,8 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class ConsoleChatClientStarter {
-    public static void main(String[] args) throws URISyntaxException, IOException {
+    public static void main( String[ ] args) throws URISyntaxException, IOException {
         // more about drafts here: http://github.com/TooTallNate/Java-WebSocket/wiki/Drafts
-        new ConsoleChatClient( new URI("ws://localhost:8887"));
+        new ConsoleChatClient( new URI( "ws://localhost:8887"));
     }
 }

@@ -1,9 +1,9 @@
 package com.timmax.example.websocket.p03.client;
 
+import java.net.URI;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-
-import java.net.URI;
 
 public class UnifyWebSocketClient extends WebSocketClient {
     private final LikeWebSocketClient likeWebSocketClient;
